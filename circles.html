@@ -16,18 +16,17 @@ This text is displayed if your browser does not support HTML5 Canvas.
 </div>
 
 <script type="text/javascript">
+"use strict";
 var canvas,
 	ctx,
 	width,
 	height,
 	tick = 0,
 	colorCount = 10,	
-	width = window.innerWidth;
+	width = window.innerWidth,
 	height = window.innerHeight,
 	centerX = width / 2,
-	centerY = height / 2,	
-	aumentar = true,
-	step = 4,
+	centerY = height / 2,
 	angulo = 0,
 	numLinhas = 1,
 	bolaPorLinha = 6;
@@ -39,12 +38,12 @@ function init() {
   	canvas.width = width;
   	canvas.height =height;
 	loop();
-};
+}
 
 function loop() {
   requestAnimationFrame( loop );  
   draw();
-};
+}
  
  function corAtual() {
  	colorCount += 10;
@@ -53,11 +52,11 @@ function loop() {
 
 function drawCircle (posX, posY, raio){
 	ctx.beginPath();
-	ctx.fillStyle = 'hsla(' + ( corAtual() ) + ', 60%, 30%, 1 )';
+	ctx.fillStyle = "hsla(" + ( corAtual() ) + ", 60%, 30%, 1 )";
 	ctx.arc(posX, posY, raio, 0, Math.PI*2, true);		
 	ctx.closePath();
 	ctx.fill();
-};
+}
 
 function draw() {
 	
