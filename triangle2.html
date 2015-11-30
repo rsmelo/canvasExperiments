@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Triangles</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      overflow: hidden;
+    }
+  </style>
+<body>
+  <canvas id="canvas" width="320" height="200">
+  This text is displayed if your browser does not support HTML5 Canvas.
+  </canvas>
+
+<script type="text/javascript">
+"use strict";
+var canvas,
+  ctx,    
+  colorCount = 10,
+  width = window.innerWidth,
+  height = window.innerHeight,
+  numTriangles = 25,
+  lado = (width / numTriangles) * 2,
+  h =  (lado / 2 ) * Math.sqrt(3),
+  nLines = Math.ceil(height / h);
+
+function init() {
+  canvas = document.getElementById("canvas");
+  ctx = canvas.getContext("2d");	
+  canvas.width = width;
+  canvas.height =height;
+  loop();
+}
+
+function loop() {
+  requestAnimationFrame( loop );  
+  draw();
+}
+ 
+function corAtual() {
+  colorCount += 10;
+  return colorCount;
+}
+
+function drawEquilatero(lado, px, py) {  
+  ctx.beginPath();  
+  ctx.moveTo(px, py);
+  ctx.lineTo(px + lado, py);
+  ctx.lineTo(px + (lado / 2), h + py);
+  ctx.lineTo(px, py);
+  ctx.fill();  
+  ctx.closePath();
+}
+
+function drawEquilateroInvertido(lado, px, py) {  
+  ctx.beginPath();  
+  ctx.moveTo(px + (lado /2), py);
+  ctx.lineTo(px + lado, py + h);
+  ctx.lineTo(px, py + h );
+  ctx.lineTo(px + (lado /2), py);  
+  ctx.fill();  
+  ctx.closePath();  
+}
+
+function randomRGB() {
+  return  Math.round(Math.random() * 255);
+}
+
+function draw() {	
+  var varX = -(lado /2),
+    varY = 0;
+
+  for (var lTriangle = 0; lTriangle < nLines; lTriangle++){
+    for (var iTriangle = 0; iTriangle <= numTriangles; iTriangle++){                
+      ctx.fillStyle = "rgb(" + randomRGB() + ", " + randomRGB() +","+ randomRGB() +")"; 
+      if ((iTriangle % 2) == 0) {        
+        drawEquilatero(lado, varX, varY);      
+      } else {        
+        drawEquilateroInvertido(lado, varX, varY)
+      }
+      varX += lado / 2;
+    }
+    varX = -(lado /2);
+    varY += h;
+  }  
+}
+init();
+</script>
+</body>
+</html>
