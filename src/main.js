@@ -1,5 +1,3 @@
 import "./css/main.css";
-import Circles from "./modules/circles.js";
-
-let circle = new Circles();
-circle.start();
+import circle from "./modules/circles.js";
+circle.init();
