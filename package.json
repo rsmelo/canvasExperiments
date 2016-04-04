@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "simple canvas examples",
   "main": "src/index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "webpack-dev-server --progress"
+    },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rsmelo/canvasExperiments.git"
