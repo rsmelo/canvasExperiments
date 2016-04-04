@@ -1,4 +1,6 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
+
 module.exports = {
   devtool: 'source-map',
   entry:  {
@@ -8,25 +10,8 @@ module.exports = {
   },
   output: {
     path: __dirname + '/builds',
-    filename: "[name].bundle.js"
+    filename: "[name].js"
   },
-  plugins: [
-   new HtmlWebpackPlugin({
-      title: "Circles",
-      template:  __dirname + "/src/template/circles.html",
-      filename: __dirname + "/builds/circles.html",
-    }),
-   new HtmlWebpackPlugin({
-      title: "triangles",
-      template:  __dirname + "/src/template/triangles.html",
-      filename: __dirname + "/builds/triangles.html",
-    }),
-   new HtmlWebpackPlugin({
-      title: "multipleTriangles",
-      template:  __dirname + "/src/template/multipleTriangles.html",
-      filename: __dirname + "/builds/multipleTriangles.html",
-    }),
-  ],
   module: {
     preLoaders: [
         {
@@ -47,6 +32,28 @@ module.exports = {
       }
     ],
   },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "commons",
+      filename: "commons.js",
+      chunks: ["circles", "triangles", "multipleTriangles"]
+    }),
+    new HtmlWebpackPlugin({
+      title: "Circles",
+      template:  __dirname + "/src/template/circles.html",
+      filename:  __dirname + "/builds/circles.html",
+    }),
+    new HtmlWebpackPlugin({
+      title: "triangles",
+      template:  __dirname + "/src/template/triangles.html",
+      filename:  __dirname + "/builds/triangles.html",
+    }),
+    new HtmlWebpackPlugin({
+      title: "multipleTriangles",
+      template:  __dirname + "/src/template/multipleTriangles.html",
+      filename:  __dirname + "/builds/multipleTriangles.html",
+    }),
+  ],
   devServer: {
     colors: true,
     historyApiFallback: true,
