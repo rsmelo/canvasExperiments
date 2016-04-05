@@ -1,4 +1,6 @@
-"use strict";
+import "../css/main.css";
+import "../template/circles.html";
+
 let colorHue = 10,
     angle = 0,
     linesNumber = 1,

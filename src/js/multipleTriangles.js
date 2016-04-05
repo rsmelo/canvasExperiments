@@ -1,3 +1,6 @@
+import "../css/main.css";
+import "../template/multipleTriangles.html";
+
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 

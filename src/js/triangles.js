@@ -1,3 +1,6 @@
+import "../css/main.css";
+import "../template/triangles.html";
+
 let tick = 0,
     radius = 1;
 
