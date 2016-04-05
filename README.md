@@ -1,3 +1,2 @@
 # canvasExperiments
-my canvas experiments, just for fun
-> [Check it live](http://rsmelo.github.io/canvasExperiments).
+my canvas experiments, using webpack and es6
