@@ -1,5 +1,6 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
@@ -9,7 +10,7 @@ module.exports = {
     multipleTriangles: __dirname + "/src/js/multipleTriangles.js",
   },
   output: {
-    path: __dirname + '/builds',
+    path: __dirname + '/dist/js',
     filename: "[name].js"
   },
   module: {
@@ -20,7 +21,11 @@ module.exports = {
             loader: "eslint"
         }
     ],
-    loaders: [
+    loaders: [      
+      {
+        test:   /\.html$/,
+        loader: 'html!url-loader?limit=1&name=../[name].[ext]'
+      },      
       {
         test:   /\.js$/,
         loader: 'babel',
@@ -28,40 +33,28 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style!css'
+        loader:  ExtractTextPlugin.extract('style','css')
       }
     ],
   },
   plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
-      name: "commons",
+      name: "commons",      
       filename: "commons.js",
       chunks: ["circles", "triangles", "multipleTriangles"]
     }),
     new HtmlWebpackPlugin({
-      title: "Circles",
-      template:  __dirname + "/src/template/circles.html",
-      filename:  __dirname + "/builds/circles.html",
-    }),
-    new HtmlWebpackPlugin({
-      title: "triangles",
-      template:  __dirname + "/src/template/triangles.html",
-      filename:  __dirname + "/builds/triangles.html",
-    }),
-    new HtmlWebpackPlugin({
-      title: "multipleTriangles",
-      template:  __dirname + "/src/template/multipleTriangles.html",
-      filename:  __dirname + "/builds/multipleTriangles.html",
-    }),
+       title: "Canvas Experiments",      
+       template:  __dirname + "/src/template/index.html",
+       filename:  __dirname + "/dist/circles.html",
+    }),    
+    new ExtractTextPlugin("../css/[name].css")
   ],
   devServer: {
     colors: true,
     historyApiFallback: true,
     inline: true,
     hot: true
-  },
-  jshint: {
-    esversion: 6,
-    browser: true
   }
 };
