@@ -24,6 +24,7 @@ module.exports = {
     loaders: [      
       {
         test:   /\.html$/,
+        exclude: /index.html/,
         loader: 'html!url-loader?limit=1&name=../[name].[ext]'
       },      
       {
@@ -46,8 +47,9 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
        title: "Canvas Experiments",      
+       inject: false,
        template:  __dirname + "/src/template/index.html",
-       filename:  __dirname + "/dist/circles.html",
+       filename:  __dirname + "/dist/index.html",
     }),    
     new ExtractTextPlugin("../css/[name].css")
   ],
