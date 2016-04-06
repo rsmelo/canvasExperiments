@@ -8,6 +8,7 @@ module.exports = {
     circles: __dirname + "/src/js/circles.js",
     triangles: __dirname + "/src/js/triangles.js",
     multipleTriangles: __dirname + "/src/js/multipleTriangles.js",
+    circleVector: __dirname + "/src/js/circleVector.js"
   },
   output: {
     path: __dirname + '/dist/js',
