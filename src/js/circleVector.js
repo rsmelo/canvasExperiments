@@ -1,6 +1,6 @@
 import "../css/main.css";
 import "../template/circleVector.html";
-let slices = 4;
+let slices = 6;
 const ballRadius = 6;
 const balls = [];
 let positiveIncrement = true;
@@ -10,7 +10,8 @@ const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 const radius = 200;
 let deltaMov = -radius;
-const pointOffset = [radius,  0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+let fraction = radius / 3;
+const pointOffset = [radius,  (radius - (radius/2)), (-radius + (radius/2)), 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 const pointIncrement = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true];
 
 function init() {
@@ -53,7 +54,7 @@ function drawPoint(context, centerX, centerY, angle, idx) {
     context.closePath();
     context.fill();
 
-    if (localPointIncrement) {
+   /*if (localPointIncrement) {
         localMov += 2;
     } else {
         localMov -= 2;
@@ -64,7 +65,7 @@ function drawPoint(context, centerX, centerY, angle, idx) {
     } else if (localMov <= (-radius)) {
         pointIncrement[idx] = true;
     }
-    pointOffset[idx] = localMov;
+    pointOffset[idx] = localMov;*/
 }
 
 function draw() {
@@ -79,14 +80,14 @@ function draw() {
     drawCircle(ctx, centerX, centerY, radius);
 
     const delta = 360 / slices;
-    let currentVariance = 0;
+    let currentVariance = 90;
     for (let iLines = 0; iLines < (slices / 2); iLines++) {
         ctx.beginPath();
         ctx.moveTo(centerX - radius * Math.cos(currentVariance * Math.PI / 180), centerY - radius * Math.sin(currentVariance * Math.PI / 180));
         ctx.lineTo(centerX - radius * Math.cos((currentVariance + 180) * Math.PI / 180), centerY - radius * Math.sin((currentVariance + 180) * Math.PI / 180));
         ctx.stroke();
-        currentVariance += delta;
         drawPoint(ctx, centerX, centerY, currentVariance, iLines);
+        currentVariance += delta;
     }
 
     if (positiveIncrement) {
@@ -99,13 +100,11 @@ function draw() {
         positiveIncrement = false;
     } else if (deltaMov <= (-radius)) {
         positiveIncrement = true;
-        if (slices < 40) {
+       /* if (slices < 40) {
             slices += 2;
-            pointOffset[1] = 0
-            pointOffset[2] = radius;
         } else {
             slices = 4;
-        }
+        }*/
     }
 }
 
