@@ -3,13 +3,15 @@ import "../template/circleVector.html";
 let slices = 4;
 const ballRadius = 6;
 const balls = [];
-let distance = 1;
 let positiveIncrement = true;
 let angulo = 0;
 
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 const radius = 200;
+let deltaMov = -radius;
+const pointOffset = [radius,  0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+const pointIncrement = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true];
 
 function init() {
     const body = document.getElementsByTagName("body")[0];
@@ -37,29 +39,32 @@ function drawLines(ctx) {
     }
 }
 
-function drawPoint(context, centerX, centerY) {
+function drawPoint(context, centerX, centerY, angle, idx) {
+    let localMov = pointOffset[idx];
+    let localPointIncrement = pointIncrement[idx];
     context.beginPath();
-    context.fillStyle = "#f00";
-    context.arc(distance + centerX - radius * Math.cos(0 * Math.PI / 180),centerY - radius * Math.sin(0 * Math.PI / 180), ballRadius, 0, Math.PI * 2);
+    if (idx === 0){
+        context.fillStyle = "#f00";
+    } else {
+        context.fillStyle = "#0f0";
+    }
+
+    context.arc(centerX - (localMov) * Math.cos(angle * Math.PI / 180),centerY - (localMov) * Math.sin(angle * Math.PI / 180), ballRadius, 0, Math.PI * 2);
     context.closePath();
     context.fill();
 
-    if (positiveIncrement) {
-        distance += 2;
+    if (localPointIncrement) {
+        localMov += 2;
     } else {
-        distance -= 2;
+        localMov -= 2;
     }
 
-    if (distance >= radius * 2) {
-        positiveIncrement = false;
-    } else if (distance <= 0) {
-        positiveIncrement = true;
-        if (slices < 40) {
-            slices += 2;
-        } else {
-            slices = 4;
-        }
+    if (localMov >= radius) {
+        pointIncrement[idx] = false;
+    } else if (localMov <= (-radius)) {
+        pointIncrement[idx] = true;
     }
+    pointOffset[idx] = localMov;
 }
 
 function draw() {
@@ -81,9 +86,27 @@ function draw() {
         ctx.lineTo(centerX - radius * Math.cos((currentVariance + 180) * Math.PI / 180), centerY - radius * Math.sin((currentVariance + 180) * Math.PI / 180));
         ctx.stroke();
         currentVariance += delta;
+        drawPoint(ctx, centerX, centerY, currentVariance, iLines);
     }
 
-    drawPoint(ctx, centerX, centerY);
+    if (positiveIncrement) {
+        deltaMov += 2;
+    } else {
+        deltaMov -= 2;
+    }
+
+    if (deltaMov >= radius) {
+        positiveIncrement = false;
+    } else if (deltaMov <= (-radius)) {
+        positiveIncrement = true;
+        if (slices < 40) {
+            slices += 2;
+            pointOffset[1] = 0
+            pointOffset[2] = radius;
+        } else {
+            slices = 4;
+        }
+    }
 }
 
 function loop() {
