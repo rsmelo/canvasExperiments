@@ -10,15 +10,24 @@ const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 const radius = 40;
 
-function init() {
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+
+const init = () => {
     const body = document.getElementsByTagName("body")[0];
     body.appendChild(canvas);
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
     loop();
-}
+};
 
-function drawCircle(context, posX, posY, radius) {
+const loop = () => {
+    requestAnimationFrame(loop);
+    draw();
+};
+
+const drawCircle = (context, posX, posY, radius) => {
     if (colorHue > 360) {
         colorHue = 0;
     } else {
@@ -29,16 +38,10 @@ function drawCircle(context, posX, posY, radius) {
     context.arc(posX, posY, radius, 0, Math.PI * 2, true);
     context.closePath();
     context.fill();
-}
+};
 
-function draw() {
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-
-    ctx.beginPath();
-    ctx.fillStyle = "#000";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.closePath();
+const draw = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawCircle(ctx, centerX, centerY, radius);
 
@@ -50,7 +53,7 @@ function draw() {
                 centerX - (radius * 2 * iLinha) * Math.cos(currentAngle * Math.PI / 180),
                 centerY - (radius * 2 * iLinha) * Math.sin(currentAngle * Math.PI / 180),
                 radius
-                );
+            );
         }
     }
 
@@ -63,15 +66,9 @@ function draw() {
         ballsPerline += 3;
     }
 
-    ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate(1);
     ctx.translate(-centerX, -centerY);
-}
-
-function loop() {
-    requestAnimationFrame(loop);
-    draw();
-}
+};
 
 init();

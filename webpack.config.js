@@ -7,8 +7,7 @@ module.exports = {
   entry:  {
     circles: __dirname + "/src/js/circles.js",
     triangles: __dirname + "/src/js/triangles.js",
-    multipleTriangles: __dirname + "/src/js/multipleTriangles.js",
-    circleVector: __dirname + "/src/js/circleVector.js"
+    multipleTriangles: __dirname + "/src/js/multipleTriangles.js"
   },
   output: {
     path: __dirname + '/dist/js',
@@ -22,12 +21,12 @@ module.exports = {
             loader: "eslint"
         }
     ],
-    loaders: [      
+    loaders: [
       {
         test:   /\.html$/,
         exclude: /index.html/,
         loader: 'html!url-loader?limit=1&name=../[name].[ext]'
-      },      
+      },
       {
         test:   /\.js$/,
         loader: 'babel',
@@ -42,16 +41,16 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
-      name: "commons",      
+      name: "commons",
       filename: "commons.js",
       chunks: ["circles", "triangles", "multipleTriangles"]
     }),
     new HtmlWebpackPlugin({
-       title: "Canvas Experiments",      
+       title: "Canvas Experiments",
        inject: false,
        template:  __dirname + "/src/template/index.html",
        filename:  __dirname + "/dist/index.html",
-    }),    
+    }),
     new ExtractTextPlugin("../css/[name].css")
   ],
   devServer: {
